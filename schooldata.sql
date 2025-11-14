@@ -1,161 +1,171 @@
 ------------------------------------------------------------
--- DROP OLD TABLES (relationships first, then entities)
+-- Use same date format style as the sample file
 ------------------------------------------------------------
-DROP TABLE enrollment    CASCADE CONSTRAINTS;
-DROP TABLE teaches       CASCADE CONSTRAINTS;
-DROP TABLE gets_books    CASCADE CONSTRAINTS;
-DROP TABLE requests_from CASCADE CONSTRAINTS;
-DROP TABLE offers        CASCADE CONSTRAINTS;
-DROP TABLE works_with    CASCADE CONSTRAINTS;
-
-DROP TABLE student       CASCADE CONSTRAINTS;
-DROP TABLE professor     CASCADE CONSTRAINTS;
-DROP TABLE advisor       CASCADE CONSTRAINTS;
-DROP TABLE course        CASCADE CONSTRAINTS;
-DROP TABLE bookstore     CASCADE CONSTRAINTS;
-DROP TABLE department    CASCADE CONSTRAINTS;
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MON-RR';
 
 ------------------------------------------------------------
 -- DEPARTMENT
--- matches: INSERT INTO department (department_id, name) ...
+-- assumed: DEPARTMENT(department_id, name)
 ------------------------------------------------------------
-CREATE TABLE department (
-  department_id  NUMBER(4),
-  name           VARCHAR2(40) NOT NULL,
-  PRIMARY KEY (department_id),
-  UNIQUE (name)
-);
+INSERT INTO department (department_id, dname) VALUES (10, 'Computer Science');
+INSERT INTO department (department_id, dname) VALUES (20, 'Mathematics');
+INSERT INTO department (department_id, dname) VALUES (30, 'Physics');
+INSERT INTO department (department_id, dname) VALUES (40, 'English');
 
 ------------------------------------------------------------
 -- ADVISOR
--- matches: INSERT INTO advisor (advisor_id, fname, minit, lname, department_id)
+-- assumed: ADVISOR(advisor_id, fname, minit, lname, department_id)
 ------------------------------------------------------------
-CREATE TABLE advisor (
-  advisor_id     NUMBER(6),
-  fname          VARCHAR2(15) NOT NULL,
-  minit          VARCHAR2(1),
-  lname          VARCHAR2(15) NOT NULL,
-  department_id  NUMBER(4) NOT NULL,
-  PRIMARY KEY (advisor_id),
-  FOREIGN KEY (department_id) REFERENCES department(department_id)
-);
+INSERT INTO advisor (advisor_id, fname, minit, lname, department_id) 
+VALUES (9001, 'Alice',  'R', 'Adams', 10);
+
+INSERT INTO advisor (advisor_id, fname, minit, lname, department_id) 
+VALUES (9002, 'Brian',  'K', 'Baker', 20);
 
 ------------------------------------------------------------
 -- PROFESSOR
--- matches: INSERT INTO professor (professor_id, fname, minit, lname,
---                                age, birthday, department_id)
+-- assumed: PROFESSOR(professor_id, fname, minit, lname, age, birthday, department_id)
 ------------------------------------------------------------
-CREATE TABLE professor (
-  professor_id   NUMBER(6),
-  fname          VARCHAR2(15) NOT NULL,
-  minit          VARCHAR2(1),
-  lname          VARCHAR2(15) NOT NULL,
-  birthday       DATE,
-  age            NUMBER(3),
-  department_id  NUMBER(4) NOT NULL,
-  PRIMARY KEY (professor_id),
-  FOREIGN KEY (department_id) REFERENCES department(department_id)
-);
+INSERT INTO professor (professor_id, fname, minit, lname, age, birthday, department_id)
+VALUES (5001, 'Helen', 'J', 'Hughes', 52, '14-MAR-73', 10);
+
+INSERT INTO professor (professor_id, fname, minit, lname, age, birthday, department_id)
+VALUES (5002, 'Carl',  'D', 'Campbell', 47, '09-SEP-78', 20);
+
+INSERT INTO professor (professor_id, fname, minit, lname, age, birthday, department_id)
+VALUES (5003, 'Irene', 'M', 'Ibarra', 61, '02-DEC-64', 30);
+
+INSERT INTO professor (professor_id, fname, minit, lname, age, birthday, department_id)
+VALUES (5004, 'David', 'L', 'Dorsey', 45, '21-JAN-80', 40);
 
 ------------------------------------------------------------
 -- STUDENT
--- matches: INSERT INTO student (student_id, fname, minit, lname,
---                               age, birthday, department_id, advisor_id)
+-- assumed: STUDENT(student_id, fname, minit, lname, age, birthday,
+--                  department_id, advisor_id)
 ------------------------------------------------------------
-CREATE TABLE student (
-  student_id     NUMBER(6),
-  fname          VARCHAR2(15) NOT NULL,
-  minit          VARCHAR2(1),
-  lname          VARCHAR2(15) NOT NULL,
-  age            NUMBER(3),
-  birthday       DATE,
-  department_id  NUMBER(4) NOT NULL,
-  advisor_id     NUMBER(6),
-  PRIMARY KEY (student_id),
-  FOREIGN KEY (department_id) REFERENCES department(department_id),
-  FOREIGN KEY (advisor_id)    REFERENCES advisor(advisor_id)
-);
+INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
+VALUES (1001, 'John',   'A', 'Smith', '12-AUG-06', 19, 10);
+
+INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
+VALUES (1001, 'Kevin',   'B', 'Smath', '13-AUG-06', 19, 10);
+
+INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
+VALUES (1001, 'Tasha',   'C', 'Smuth', '14-AUG-06', 19, 10);
+
+INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
+VALUES (1001, 'Jerome',   'D', 'Jones', '15-AUG-06', 19, 10);
+
+INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
+VALUES (1001, 'Alex',   'E', 'Smeth', '16-AUG-06', 19, 10);
 
 ------------------------------------------------------------
 -- BOOKSTORE
--- matches: INSERT INTO bookstore (store_id, name) ...
+-- assumed: BOOKSTORE(store_id, name)
 ------------------------------------------------------------
-CREATE TABLE bookstore (
-  store_id  NUMBER(4),
-  name      VARCHAR2(40) NOT NULL,
-  PRIMARY KEY (store_id),
-  UNIQUE (name)
-);
+INSERT INTO bookstore (store_id, sname)
+VALUES (3001, 'Campus Bookstore North');
+
+INSERT INTO bookstore (store_id, sname)
+VALUES (3002, 'Campus Bookstore South');
 
 ------------------------------------------------------------
 -- COURSE
--- matches: INSERT INTO course (course_id, name, department_id) ...
+-- assumed: COURSE(course_id, name, department_id)
 ------------------------------------------------------------
-CREATE TABLE course (
-  course_id      NUMBER(6),
-  name           VARCHAR2(40) NOT NULL,
-  department_id  NUMBER(4) NOT NULL,
-  PRIMARY KEY (course_id),
-  FOREIGN KEY (department_id) REFERENCES department(department_id)
-);
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4001, 'Intro to Programming',     10);
+
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4002, 'Data Structures',          10);
+
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4003, 'Discrete Mathematics',     20);
+
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4004, 'Linear Algebra',           20);
+
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4005, 'General Physics I',        30);
+
+INSERT INTO course (course_id, cname, department_id)
+VALUES (4006, 'Technical Writing for CS', 40);
 
 ------------------------------------------------------------
 -- ENROLLMENT (enrolls_in)
--- matches: INSERT INTO enrollment (student_id, course_id, enroll_date)
+-- assumed: ENROLLMENT(student_id, course_id, enroll_date)
 ------------------------------------------------------------
-CREATE TABLE enrollment (
-  student_id   NUMBER(6),
-  course_id    NUMBER(6),
-  enroll_date  DATE,
-  PRIMARY KEY (student_id, course_id),
-  FOREIGN KEY (student_id) REFERENCES student(student_id),
-  FOREIGN KEY (course_id)  REFERENCES course(course_id)
-);
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1001, 4001, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1001, 4003, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1002, 4001, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1002, 4002, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1003, 4003, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1003, 4004, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1004, 4005, '20-AUG-24');
+
+INSERT INTO enrollment (student_id, course_id, enroll_date)
+VALUES (1005, 4006, '20-AUG-24');
 
 ------------------------------------------------------------
 -- TEACHES
--- matches: INSERT INTO teaches (professor_id, course_id)
+-- assumed: TEACHES(professor_id, course_id)
 ------------------------------------------------------------
-CREATE TABLE teaches (
-  professor_id  NUMBER(6),
-  course_id     NUMBER(6),
-  PRIMARY KEY (professor_id, course_id),
-  FOREIGN KEY (professor_id) REFERENCES professor(professor_id),
-  FOREIGN KEY (course_id)    REFERENCES course(course_id)
-);
+INSERT INTO teaches (professor_id, course_id) VALUES (5001, 4001);
+INSERT INTO teaches (professor_id, course_id) VALUES (5001, 4002);
+INSERT INTO teaches (professor_id, course_id) VALUES (5002, 4003);
+INSERT INTO teaches (professor_id, course_id) VALUES (5002, 4004);
+INSERT INTO teaches (professor_id, course_id) VALUES (5003, 4005);
+INSERT INTO teaches (professor_id, course_id) VALUES (5004, 4006);
 
 ------------------------------------------------------------
 -- GETS_BOOKS
--- matches: INSERT INTO gets_books (student_id, store_id)
+-- assumed: GETS_BOOKS(student_id, store_id)
 ------------------------------------------------------------
-CREATE TABLE gets_books (
-  student_id  NUMBER(6),
-  store_id    NUMBER(4),
-  PRIMARY KEY (student_id, store_id),
-  FOREIGN KEY (student_id) REFERENCES student(student_id),
-  FOREIGN KEY (store_id)   REFERENCES bookstore(store_id)
-);
+INSERT INTO gets_books (student_id, store_id) VALUES (1001, 3001);
+INSERT INTO gets_books (student_id, store_id) VALUES (1002, 3001);
+INSERT INTO gets_books (student_id, store_id) VALUES (1003, 3001);
+INSERT INTO gets_books (student_id, store_id) VALUES (1003, 3002);
+INSERT INTO gets_books (student_id, store_id) VALUES (1004, 3002);
+INSERT INTO gets_books (student_id, store_id) VALUES (1005, 3002);
 
 ------------------------------------------------------------
 -- REQUESTS_FROM
--- matches: INSERT INTO requests_from (professor_id, store_id)
+-- assumed: REQUESTS_FROM(professor_id, store_id)
 ------------------------------------------------------------
-CREATE TABLE requests_from (
-  professor_id  NUMBER(6),
-  store_id      NUMBER(4),
-  PRIMARY KEY (professor_id, store_id),
-  FOREIGN KEY (professor_id) REFERENCES professor(professor_id),
-  FOREIGN KEY (store_id)     REFERENCES bookstore(store_id)
-);
+INSERT INTO requests_from (professor_id, store_id) VALUES (5001, 3001);
+INSERT INTO requests_from (professor_id, store_id) VALUES (5002, 3001);
+INSERT INTO requests_from (professor_id, store_id) VALUES (5003, 3002);
+INSERT INTO requests_from (professor_id, store_id) VALUES (5004, 3002);
 
 ------------------------------------------------------------
 -- OFFERS
--- matches: INSERT INTO offers (store_id, course_id)
+-- assumed: OFFERS(store_id, course_id)
 ------------------------------------------------------------
-CREATE TABLE offers (
-  store_id   NUMBER(4),
-  course_id  NUMBER(6),
-  PRIMARY KEY (store_id, course_id),
-  FOREIGN KEY (store_id)  REFERENCES bookstore(store_id),
-  FOREIGN KEY (course_id) REFERENCES course(course_id)
-);
+INSERT INTO offers (store_id, course_id) VALUES (3001, 4001);
+INSERT INTO offers (store_id, course_id) VALUES (3001, 4002);
+INSERT INTO offers (store_id, course_id) VALUES (3001, 4003);
+INSERT INTO offers (store_id, course_id) VALUES (3002, 4004);
+INSERT INTO offers (store_id, course_id) VALUES (3002, 4005);
+INSERT INTO offers (store_id, course_id) VALUES (3002, 4006);
+
+------------------------------------------------------------
+-- OPTIONAL: if you modeled Student–Advisor as a separate table
+-- WORKS_WITH(student_id, advisor_id)
+------------------------------------------------------------
+-- INSERT INTO works_with (student_id, advisor_id) VALUES (1001, 9001);
+-- INSERT INTO works_with (student_id, advisor_id) VALUES (1002, 9001);
+-- INSERT INTO works_with (student_id, advisor_id) VALUES (1003, 9002);
+-- INSERT INTO works_with (student_id, advisor_id) VALUES (1004, 9002);
+-- INSERT INTO works_with (student_id, advisor_id) VALUES (1005, 9001);
