@@ -164,8 +164,9 @@ INSERT INTO offers (store_id, course_id) VALUES (3002, 4006);
 -- OPTIONAL: if you modeled Student–Advisor as a separate table
 -- WORKS_WITH(student_id, advisor_id)
 ------------------------------------------------------------
-INSERT INTO works_with (student_id, advisor_id) VALUES (1001, 9001);
-INSERT INTO works_with (student_id, advisor_id) VALUES (1002, 9001);
-INSERT INTO works_with (student_id, advisor_id) VALUES (1003, 9002);
-INSERT INTO works_with (student_id, advisor_id) VALUES (1004, 9002);
-INSERT INTO works_with (student_id, advisor_id) VALUES (1005, 9001);
+INSERT INTO works_with (student_id, professor_id, advisor_id) VALUES (1001, 5001, 9001);
+INSERT INTO works_with (student_id, professor_id, advisor_id) VALUES (1002, 5002, 9002);
+INSERT INTO works_with (student_id, professor_id, advisor_id) VALUES (1003, 5003, 9002);
+INSERT INTO works_with (student_id, professor_id, advisor_id) VALUES (1004, 5004, 9001);
+INSERT INTO works_with (student_id, professor_id, advisor_id) VALUES (1005, 5004, 9001);
+
