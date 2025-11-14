@@ -47,16 +47,16 @@ INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_
 VALUES (1001, 'John',   'A', 'Smith', '12-AUG-06', 19, 10);
 
 INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
-VALUES (1001, 'Kevin',   'B', 'Smath', '13-AUG-06', 19, 10);
+VALUES (1002, 'Kevin',   'B', 'Smath', '13-AUG-06', 19, 10);
 
 INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
-VALUES (1001, 'Tasha',   'C', 'Smuth', '14-AUG-06', 19, 10);
+VALUES (1003, 'Tasha',   'C', 'Smuth', '14-AUG-06', 19, 10);
 
 INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
-VALUES (1001, 'Jerome',   'D', 'Jones', '15-AUG-06', 19, 10);
+VALUES (1004, 'Jerome',   'D', 'Jones', '15-AUG-06', 19, 10);
 
 INSERT INTO student (student_id, fname, minit, lname, birthday, age, department_id)
-VALUES (1001, 'Alex',   'E', 'Smeth', '16-AUG-06', 19, 10);
+VALUES (1005, 'Alex',   'E', 'Smeth', '16-AUG-06', 19, 10);
 
 ------------------------------------------------------------
 -- BOOKSTORE
@@ -164,8 +164,8 @@ INSERT INTO offers (store_id, course_id) VALUES (3002, 4006);
 -- OPTIONAL: if you modeled Student–Advisor as a separate table
 -- WORKS_WITH(student_id, advisor_id)
 ------------------------------------------------------------
--- INSERT INTO works_with (student_id, advisor_id) VALUES (1001, 9001);
--- INSERT INTO works_with (student_id, advisor_id) VALUES (1002, 9001);
--- INSERT INTO works_with (student_id, advisor_id) VALUES (1003, 9002);
--- INSERT INTO works_with (student_id, advisor_id) VALUES (1004, 9002);
--- INSERT INTO works_with (student_id, advisor_id) VALUES (1005, 9001);
+INSERT INTO works_with (student_id, advisor_id) VALUES (1001, 9001);
+INSERT INTO works_with (student_id, advisor_id) VALUES (1002, 9001);
+INSERT INTO works_with (student_id, advisor_id) VALUES (1003, 9002);
+INSERT INTO works_with (student_id, advisor_id) VALUES (1004, 9002);
+INSERT INTO works_with (student_id, advisor_id) VALUES (1005, 9001);
